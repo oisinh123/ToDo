@@ -1,0 +1,5 @@
+assesment\todo\controllers\ToDoController.class
+assesment\todo\dto\ToDo.class
+assesment\todo\services\TodoService.class
+assesment\todo\dao\TodoRepository.class
+assesment\todo\TodoApplication.class

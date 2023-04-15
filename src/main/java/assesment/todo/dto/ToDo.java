@@ -10,6 +10,9 @@ public class ToDo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(nullable = true) // Set nullable to true
+    private String status;
     private String description;
 
     public ToDo() {
@@ -18,6 +21,9 @@ public class ToDo {
     public ToDo(Long id, String description) {
         this.id = id;
         this.description = description;
+    }
+
+    public ToDo(long l, String s, String s1, boolean b) {
     }
 
     public Long getId() {
@@ -36,4 +42,7 @@ public class ToDo {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
+
 }

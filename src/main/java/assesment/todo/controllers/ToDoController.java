@@ -1,12 +1,13 @@
 package assesment.todo.controllers;
-import assesment.todo.dto.ToDo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import assesment.todo.services.TodoService;
 
-import java.util.HashMap;
+import assesment.todo.dto.ToDo;
+import assesment.todo.services.TodoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/todos")
@@ -15,29 +16,26 @@ public class ToDoController {
     @Autowired
     private TodoService todoService;
 
-    private final Map<Long, ToDo> todos = new HashMap<>();
-
     @GetMapping("/{todoId}")
     public ToDo getToDo(@PathVariable Long todoId) {
-        //hi
-        return todos.get(todoId);
+        return todoService.find(todoId);
     }
 
-    @PostMapping("/")
-    public ToDo createToDo(@RequestBody ToDo toDo) {
-        todos.put(toDo.getId(), toDo);
-        return toDo;
+    @PostMapping
+    public ResponseEntity<ToDo> createToDo(@RequestBody ToDo toDo) {
+        ToDo createdToDo = todoService.save(toDo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdToDo);
     }
 
     @PutMapping("/{todoId}")
     public ToDo updateToDo(@PathVariable Long todoId, @RequestBody ToDo updatedToDo) {
-        todos.put(todoId, updatedToDo);
-        return updatedToDo;
+        return todoService.update(todoId, updatedToDo);
     }
 
-    @DeleteMapping("/{todoId}")
-    public void deleteToDo(@PathVariable Long todoId) {
-        todos.remove(todoId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteToDo(@PathVariable Long id) {
+        todoService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // Return HTTP 204 status
     }
 
     @GetMapping
